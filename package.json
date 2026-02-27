@@ -8,12 +8,21 @@
     "scripts": {
         "start": "electron-vite preview",
         "dev": "electron-vite dev --watch",
-        "build": "electron-vite build",
+        "dev:web": "vite --config vite.web.config.mjs",
+        "dev:api": "node --watch server/src/index.mjs",
+        "build": "npm run build:desktop",
+        "build:desktop": "electron-vite build",
+        "build:web": "vite build --config vite.web.config.mjs",
+        "build:api": "rm -rf dist/server dist/src/shared && mkdir -p dist/server dist/src && cp -R server/src dist/server/src && cp -R src/shared dist/src/shared",
+        "test": "node --test \"test/**/*.test.mjs\"",
+        "smoke": "bash scripts/smoke.sh",
+        "docker:up": "docker compose up --build",
+        "docker:down": "docker compose down",
         "postinstall": "electron-builder install-app-deps",
-        "build:unpack": "npm run build && electron-builder --dir",
-        "build:win": "npm run build && electron-builder --win",
-        "build:mac": "npm run build && electron-builder --mac",
-        "build:linux": "npm run build && electron-builder --linux"
+        "build:unpack": "npm run build:desktop && electron-builder --dir",
+        "build:win": "npm run build:desktop && electron-builder --win",
+        "build:mac": "npm run build:desktop && electron-builder --mac",
+        "build:linux": "npm run build:desktop && electron-builder --linux"
     },
     "dependencies": {
         "@electron-toolkit/preload": "^3.0.2",
@@ -22,14 +31,20 @@
         "chart.js": "^4.5.1",
         "chartjs-plugin-annotation": "^3.1.0",
         "chartjs-plugin-zoom": "^2.2.0",
+        "cors": "^2.8.6",
+        "express": "^5.2.1",
+        "express-rate-limit": "^8.2.1",
+        "helmet": "^8.1.0",
         "jquery": "^3.7.1",
-        "moment": "^2.30.1"
+        "moment": "^2.30.1",
+        "pino": "^10.3.1"
     },
     "devDependencies": {
         "electron": "^40.4.1",
         "electron-builder": "^26.8.1",
         "electron-store": "^11.0.2",
         "electron-vite": "^5.0.0",
+        "node-mocks-http": "^1.17.2",
         "vite": "^7.3.1"
     }
 }

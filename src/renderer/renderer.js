@@ -8,6 +8,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 Chart.register(zoomPlugin);
 Chart.register(annotationPlugin);
 Chart.defaults.borderColor = 'rgba(50,205,50,0.2)';
+const ipcRenderer = window.ipcRenderer;
 
 const localtime = false
 
